@@ -1,1 +1,541 @@
-<h1>Test Menu</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP KALA — Menu</title>
+<style>
+  /* ── BRAND PALETTE ───────────────────────────────────────── */
+  :root {
+    --cream:      #f0eede;
+    --cream-deep: #e4dcc8;
+    --cream-card: #f8f5ee;
+    --green:      #384e4b;
+    --green-mid:  #4a6660;
+    --green-rule: #7a9e98;
+    --gold:       #b08830;
+    --gold-star:  #c9a84c;
+    --gold-rule:  #c9a84c;
+    --text-desc:  #4a6660;
+    --shadow:     rgba(56,78,75,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--cream);
+    color: var(--green);
+    min-height: 100vh;
+  }
+
+  /* ── STICKY HEADER ───────────────────────────────────────── */
+  .site-header {
+    background: var(--cream-deep);
+    border-bottom: 2px solid var(--green);
+    padding: 18px 20px 12px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 6px;
+  }
+
+  .logo-img {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .header-tagline {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--green-mid);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* ── TAB NAVIGATION ──────────────────────────────────────── */
+  .tab-nav {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    background: transparent;
+    border: 1.5px solid var(--green-rule);
+    color: var(--green-mid);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    padding: 7px 18px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+  }
+
+  .tab-btn:hover {
+    background: var(--green-rule);
+    color: var(--cream);
+    border-color: var(--green-rule);
+  }
+
+  .tab-btn.active {
+    background: var(--green);
+    color: var(--cream);
+    border-color: var(--green);
+  }
+
+  /* ── MENU PANELS ─────────────────────────────────────────── */
+  .menu-panel { display: none; }
+  .menu-panel.active { display: block; }
+
+  /* ── MENU CONTENT ────────────────────────────────────────── */
+  .menu-content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+  }
+
+  /* ── ANCHOR ITEM ─────────────────────────────────────────── */
+  .anchor-wrap {
+    background: var(--cream-deep);
+    border-top: 2px solid var(--gold-rule);
+    border-bottom: 2px solid var(--gold-rule);
+    padding: 22px 30px 18px;
+    text-align: center;
+    margin: 0 -20px 0;
+  }
+
+  .anchor-tag {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .anchor-name {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+  }
+
+  .anchor-desc {
+    font-size: 13px;
+    color: var(--text-desc);
+    font-style: italic;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .anchor-price {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  /* ── SECTION HEADER ──────────────────────────────────────── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 22px 0 8px;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--gold-rule);
+    opacity: 0.7;
+  }
+
+  .section-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: var(--green);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ── MENU ITEM ───────────────────────────────────────────── */
+  .menu-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    column-gap: 16px;
+    padding: 11px 0 10px;
+    border-bottom: 1px solid rgba(122,158,152,0.2);
+    align-items: start;
+    transition: background 0.15s;
+  }
+
+  .menu-item:last-child { border-bottom: none; }
+
+  .menu-item:hover {
+    background: rgba(56,78,75,0.03);
+    margin: 0 -8px;
+    padding: 11px 8px 10px;
+    border-radius: 3px;
+  }
+
+  .item-name-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .star {
+    color: var(--gold-star);
+    font-size: 12px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .item-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green);
+    line-height: 1.25;
+    letter-spacing: 0.1px;
+  }
+
+  .item-price {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--gold);
+    white-space: nowrap;
+    grid-row: 1;
+    grid-column: 2;
+    padding-top: 1px;
+  }
+
+  .item-desc {
+    font-size: 12px;
+    color: var(--text-desc);
+    font-style: italic;
+    line-height: 1.45;
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 2px;
+  }
+
+  /* ── BENEDICT SUB-ITEMS ──────────────────────────────────── */
+  .sub-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0 5px 28px;
+    border-bottom: 1px solid rgba(122,158,152,0.15);
+  }
+
+  .sub-name {
+    font-size: 13.5px;
+    color: var(--text-desc);
+    font-style: italic;
+  }
+
+  .sub-price {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--gold);
+  }
+
+  /* ── SIDES GRID ──────────────────────────────────────────── */
+  .sides-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 20px;
+    padding: 4px 0;
+  }
+
+  .side-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(122,158,152,0.15);
+    font-size: 13px;
+  }
+
+  .side-name { color: var(--green); }
+  .side-price { color: var(--gold); font-weight: 700; font-family:'Helvetica Neue',Arial,sans-serif; }
+
+  /* ── QR SECTION ──────────────────────────────────────────── */
+  .qr-section {
+    background: var(--cream-deep);
+    border-top: 1px solid var(--green-rule);
+    border-bottom: 1px solid var(--green-rule);
+    padding: 32px 20px;
+    text-align: center;
+    margin: 28px -20px 0;
+  }
+
+  .qr-title {
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .qr-img {
+    width: 160px;
+    height: 160px;
+    image-rendering: pixelated;
+    border: 2px solid var(--green);
+    padding: 8px;
+    background: white;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+
+  .qr-url {
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size: 11px;
+    color: var(--text-desc);
+    letter-spacing: 0.5px;
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* ── FOOTER ──────────────────────────────────────────────── */
+  .site-footer {
+    background: var(--green);
+    color: var(--cream);
+    text-align: center;
+    padding: 16px 20px;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .anchor-name { font-size: 22px; }
+    .anchor-price { font-size: 24px; }
+    .item-name { font-size: 14px; }
+    .item-price { font-size: 13.5px; }
+    .logo-img { height: 42px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="logo-wrap">
+    <img src="data:image/jpeg;base64,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" class="logo-img" alt="AP KALA">
+  </div>
+  <p class="header-tagline">Town Square Heritage District &nbsp;·&nbsp; El Nido, Palawan &nbsp;·&nbsp; Open Daily 7AM–12MN</p>
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="showMenu('brunch')">Brunch &nbsp;7AM–3PM</button>
+    <button class="tab-btn" onclick="showMenu('midday')">Midday &nbsp;11AM–10PM</button>
+    <button class="tab-btn" onclick="showMenu('small')">Small Plates &nbsp;3PM–Last Call</button>
+  </nav>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!--  BRUNCH                                                      -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div id="menu-brunch" class="menu-panel active">
+<div class="menu-content">
+
+  <div class="anchor-wrap">
+    <div class="anchor-tag">Brunch Exclusive &nbsp;·&nbsp; Signature</div>
+    <div class="anchor-name">Steak &amp; Eggs</div>
+    <div class="anchor-desc">Hanger steak &nbsp;·&nbsp; Toast &nbsp;·&nbsp; 2 eggs any way &nbsp;·&nbsp; Hollandaise &nbsp;·&nbsp; Roasted potato &nbsp;·&nbsp; Salad</div>
+    <div class="anchor-price">950</div>
+  </div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">All-Day Stars</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Sourdough Burger</span></div><span class="item-price">650</span><div class="item-desc">Double smashed &nbsp;·&nbsp; Grilled onion &nbsp;·&nbsp; Cheese &nbsp;·&nbsp; Arugula &nbsp;·&nbsp; Pickled onions</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Good Bowl</span></div><span class="item-price">430</span><div class="item-desc">Roasted pumpkin &nbsp;·&nbsp; Grilled chicken &nbsp;·&nbsp; Ancient grains &nbsp;·&nbsp; Calamansi honey mustard &nbsp;·&nbsp; Candied walnuts &nbsp;·&nbsp; Herb cheese</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Eggs &amp; Morning Plates</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Bacon Breakfast</span></div><span class="item-price">500</span><div class="item-desc">Bacon &nbsp;·&nbsp; 3 eggs any way &nbsp;·&nbsp; Tomato &nbsp;·&nbsp; Sourdough</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Eggs Benedict Tartine</span></div><span class="item-price"></span><div class="item-desc">Two eggs &nbsp;·&nbsp; Hollandaise &nbsp;·&nbsp; Brioche — choose below:</div></div>
+  <div class="sub-item"><span class="sub-name">Longanisa</span><span class="sub-price">500</span></div>
+  <div class="sub-item"><span class="sub-name">Pork</span><span class="sub-price">450</span></div>
+  <div class="sub-item"><span class="sub-name">Veggie</span><span class="sub-price">330</span></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Pork Belly Hash</span></div><span class="item-price">460</span><div class="item-desc">Pork belly sisig &nbsp;·&nbsp; Potatoes &nbsp;·&nbsp; 2 poached eggs &nbsp;·&nbsp; Spicy aioli &nbsp;·&nbsp; Sourdough</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Breakfast Sandwich</span></div><span class="item-price">460</span><div class="item-desc">House longanisa &nbsp;·&nbsp; Fried egg &nbsp;·&nbsp; Crushed potatoes &nbsp;·&nbsp; Mayo &nbsp;·&nbsp; Pickled onions &nbsp;·&nbsp; Brioche</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Eggplant Omelette</span></div><span class="item-price">295</span><div class="item-desc">Roasted eggplant &nbsp;·&nbsp; Golden garlic rice &nbsp;·&nbsp; Yogurt &nbsp;·&nbsp; Chili</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">French Toast</span></div><span class="item-price">330</span><div class="item-desc">Crispy french toast &nbsp;·&nbsp; Banana &nbsp;·&nbsp; Walnuts &nbsp;·&nbsp; Caramel</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Healthy &amp; Light</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Healthy Breakfast Bowl</span></div><span class="item-price">490</span><div class="item-desc">Mixed fruits &nbsp;·&nbsp; Yogurt &nbsp;·&nbsp; Granola</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Fruit Bowl</span></div><span class="item-price">380</span><div class="item-desc">Fresh seasonal fruits</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Soups</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Gazpacho</span></div><span class="item-price">220</span><div class="item-desc">Tomato &nbsp;·&nbsp; Watermelon &nbsp;·&nbsp; Cucumber &nbsp;·&nbsp; Bellpepper — Cold</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Pumpkin Soup</span></div><span class="item-price">250</span><div class="item-desc">Pumpkin &nbsp;·&nbsp; Cinnamon &nbsp;·&nbsp; Onion &nbsp;·&nbsp; Garlic</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Salads</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Citrus Arugula Salad</span></div><span class="item-price">395</span><div class="item-desc">Fresh arugula &nbsp;·&nbsp; Olive oil &nbsp;·&nbsp; Calamansi &nbsp;·&nbsp; Cashew &nbsp;·&nbsp; Honey</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Caesar Salad</span></div><span class="item-price">250 / 400</span><div class="item-desc">Romaine &nbsp;·&nbsp; Bagoong dressing &nbsp;·&nbsp; Bacon &nbsp;·&nbsp; Parmesan croutons — Half / Full</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Shareables</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Bacon Croquettes</span></div><span class="item-price">350</span><div class="item-desc">4 pieces &nbsp;·&nbsp; Bacon &nbsp;·&nbsp; Kimchi &nbsp;·&nbsp; Bechamel &nbsp;·&nbsp; Mozzarella</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Calamari</span></div><span class="item-price">365</span><div class="item-desc">Squid &nbsp;·&nbsp; Warm salt seasoning &nbsp;·&nbsp; Vinegar dipping sauce</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">BLT Sando</span></div><span class="item-price">550</span><div class="item-desc">Bacon &nbsp;·&nbsp; Pork belly &nbsp;·&nbsp; Arugula &nbsp;·&nbsp; Tomato &nbsp;·&nbsp; Aioli &nbsp;·&nbsp; Sourdough &nbsp;·&nbsp; Kettle crisps</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Chicken Wings</span></div><span class="item-price">495</span><div class="item-desc">Simply fried &nbsp;·&nbsp; Hot butter or Calamansi honey</div></div>
+
+  <div class="qr-section">
+    <div class="qr-title">Scan to View Full Digital Menu</div>
+    <img src="data:image/png;base64,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" class="qr-img" alt="Digital Menu QR">
+    <span class="qr-url">apkala-updateddigitalmenu.netlify.app</span>
+  </div>
+
+  <p style="text-align:center;font-size:11px;color:var(--text-desc);padding:18px 0 0;font-family:'Helvetica Neue',Arial,sans-serif;letter-spacing:0.5px;">All prices 12% VAT inclusive &nbsp;·&nbsp; 10% service charge &nbsp;·&nbsp; @apkala_ph</p>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!--  MIDDAY                                                      -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div id="menu-midday" class="menu-panel">
+<div class="menu-content">
+
+  <div class="anchor-wrap">
+    <div class="anchor-name">Steak Board</div>
+    <div class="anchor-desc">800g USDA Prime Angus Ribeye &nbsp;·&nbsp; A la Carte</div>
+    <div class="anchor-price">6,500</div>
+  </div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Main Course</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Grilled Chicken</span></div><span class="item-price">595</span><div class="item-desc">Spring onion &nbsp;·&nbsp; Crougettes &nbsp;·&nbsp; Roasted pumpkin &nbsp;·&nbsp; Sweet potatoes</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Pork Belly</span></div><span class="item-price">500</span><div class="item-desc">Braised &nbsp;·&nbsp; Kimchi fried rice &nbsp;·&nbsp; Bok choy &nbsp;·&nbsp; Fried egg &nbsp;·&nbsp; Scallion oil</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Pan Seared Catch</span></div><span class="item-price">530</span><div class="item-desc">Skin-on filet &nbsp;·&nbsp; Sweet potato puree &nbsp;·&nbsp; Almond caper butter &nbsp;·&nbsp; Calamansi</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Sisig ala Carte</span></div><span class="item-price">530</span><div class="item-desc">Pork maskara &nbsp;·&nbsp; Liver aioli &nbsp;·&nbsp; Pickled chilis &nbsp;·&nbsp; Pickled onion &nbsp;·&nbsp; Eggs</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Bowls &amp; Pasta</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">AP Kala Carbonara</span></div><span class="item-price">595</span><div class="item-desc">Egg yolk &nbsp;·&nbsp; Pecorino &nbsp;·&nbsp; Black pepper &nbsp;·&nbsp; EVOO &nbsp;·&nbsp; Crispy pork bits</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Braised Bolognese</span></div><span class="item-price">545</span><div class="item-desc">Short rib & pork rib ragout &nbsp;·&nbsp; Marinara</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Local Catch Linguine</span></div><span class="item-price">530</span><div class="item-desc">Catch &nbsp;·&nbsp; Mussels &nbsp;·&nbsp; Calamari &nbsp;·&nbsp; Olive oil &nbsp;·&nbsp; Herbs</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Pesto Pasta</span></div><span class="item-price">495</span><div class="item-desc">Basil &nbsp;·&nbsp; Cashew &nbsp;·&nbsp; Parmesan &nbsp;·&nbsp; EVOO &nbsp;·&nbsp; Lemon &nbsp;·&nbsp; Olive oil</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Sisig Bowl</span></div><span class="item-price">430</span><div class="item-desc">Pork maskara &nbsp;·&nbsp; Liver aioli &nbsp;·&nbsp; Pickled chilis &nbsp;·&nbsp; Egg &nbsp;·&nbsp; Garlic rice</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Good Bowl</span></div><span class="item-price">430</span><div class="item-desc">Ancient grains &nbsp;·&nbsp; Grilled chicken &nbsp;·&nbsp; Arugula &nbsp;·&nbsp; Herb cheese &nbsp;·&nbsp; Walnuts</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Pares Bowl</span></div><span class="item-price">430</span><div class="item-desc">Braised short ribs &nbsp;·&nbsp; Tortilla nest &nbsp;·&nbsp; Pickled onion &nbsp;·&nbsp; Soy rice</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Coconut Kinilaw</span></div><span class="item-price">550</span><div class="item-desc">Ancient grain rice &nbsp;·&nbsp; Roasted pumpkin &nbsp;·&nbsp; Coconut sauce</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Sandwiches</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Sourdough Burger</span></div><span class="item-price">650</span><div class="item-desc">Double 100g smashed &nbsp;·&nbsp; Grilled onion &nbsp;·&nbsp; Cheese &nbsp;·&nbsp; Arugula &nbsp;·&nbsp; Pickled onions</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">BLT Sando</span></div><span class="item-price">550</span><div class="item-desc">Pork belly &nbsp;·&nbsp; Bacon &nbsp;·&nbsp; Organic greens &nbsp;·&nbsp; Tomato &nbsp;·&nbsp; House mayo &nbsp;·&nbsp; Sourdough</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Blackened Chicken</span></div><span class="item-price">495</span><div class="item-desc">Spiced chicken melt &nbsp;·&nbsp; Lettuce &nbsp;·&nbsp; Tomato &nbsp;·&nbsp; Onion &nbsp;·&nbsp; Aioli &nbsp;·&nbsp; Kettle crisps</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Ceviche &amp; Starters</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Ceviche Tostada</span></div><span class="item-price">260</span><div class="item-desc">Choice of mackerel or spiced shrimp &nbsp;·&nbsp; Whitefish pate &nbsp;·&nbsp; Salsa macha</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Kinilaw</span></div><span class="item-price">265</span><div class="item-desc">Citrus cured catch &nbsp;·&nbsp; Fresh tomato &nbsp;·&nbsp; Mango</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Grilled Fish Tacos (2 pcs)</span></div><span class="item-price">460</span><div class="item-desc">Marinated mackerel &nbsp;·&nbsp; Cabbage &nbsp;·&nbsp; Crema &nbsp;·&nbsp; Roasted salsa</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Shrimp Toast</span></div><span class="item-price">595</span><div class="item-desc">HK style &nbsp;·&nbsp; Brioche &nbsp;·&nbsp; Cucumber salsa &nbsp;·&nbsp; Chili crunch</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Bacon Croquettes</span></div><span class="item-price">350</span><div class="item-desc">4 pieces &nbsp;·&nbsp; Bacon &nbsp;·&nbsp; Kimchi &nbsp;·&nbsp; Bechamel &nbsp;·&nbsp; Mozzarella</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Roasted Eggplant</span></div><span class="item-price">325</span><div class="item-desc">Smashed eggplant &nbsp;·&nbsp; Almond muhamarra &nbsp;·&nbsp; Sesame peanut chili oil</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Fried Potatoes</span></div><span class="item-price">255</span><div class="item-desc">Deep fried potatoes &nbsp;·&nbsp; Lardons &nbsp;·&nbsp; Basil garlic aioli</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Salads &amp; Soups</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Citrus Arugula Salad</span></div><span class="item-price">395</span><div class="item-desc">Fresh arugula &nbsp;·&nbsp; Olive oil &nbsp;·&nbsp; Calamansi &nbsp;·&nbsp; Cashew &nbsp;·&nbsp; Honey</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Caesar Salad</span></div><span class="item-price">250 / 400</span><div class="item-desc">Romaine &nbsp;·&nbsp; Bagoong dressing &nbsp;·&nbsp; Bacon &nbsp;·&nbsp; Parmesan croutons — Half / Full</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Gazpacho</span></div><span class="item-price">220</span><div class="item-desc">Tomato &nbsp;·&nbsp; Watermelon &nbsp;·&nbsp; Cucumber &nbsp;·&nbsp; Bellpepper — Cold</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Pumpkin Soup</span></div><span class="item-price">250</span><div class="item-desc">Pumpkin &nbsp;·&nbsp; Cinnamon &nbsp;·&nbsp; Onion &nbsp;·&nbsp; Garlic</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Sides</span><div class="section-rule"></div></div>
+  <div class="sides-grid">
+    <div class="side-item"><span class="side-name">Plain Rice</span><span class="side-price">55</span></div>
+    <div class="side-item"><span class="side-name">Garlic Rice</span><span class="side-price">70</span></div>
+    <div class="side-item"><span class="side-name">Roasted Potatoes</span><span class="side-price">155</span></div>
+    <div class="side-item"><span class="side-name">Buttered Veg</span><span class="side-price">155</span></div>
+    <div class="side-item"><span class="side-name">Sweet Potato Puree</span><span class="side-price">205</span></div>
+  </div>
+
+  <p style="text-align:center;font-size:11px;color:var(--text-desc);padding:24px 0 0;font-family:'Helvetica Neue',Arial,sans-serif;letter-spacing:0.5px;">All prices 12% VAT inclusive &nbsp;·&nbsp; 10% service charge &nbsp;·&nbsp; @apkala_ph</p>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!--  SMALL PLATES                                                -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div id="menu-small" class="menu-panel">
+<div class="menu-content">
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Bar Favorites</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Chicken Wings</span></div><span class="item-price">495</span><div class="item-desc">Simply fried &nbsp;·&nbsp; Hot butter or Calamansi honey</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Calamari</span></div><span class="item-price">365</span><div class="item-desc">Fried calamari &nbsp;·&nbsp; Garlic & warm spice salt &nbsp;·&nbsp; Spiced vinegar</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Petit Quesadillas</span></div><span class="item-price">350</span><div class="item-desc">Grilled chicken &nbsp;·&nbsp; Cheese &nbsp;·&nbsp; Roasted salsa &nbsp;·&nbsp; Grilled onions</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Cheese Mousse Pomodoro</span></div><span class="item-price">400</span><div class="item-desc">Fresh tomato &nbsp;·&nbsp; Basil &nbsp;·&nbsp; Herb cheese mousse &nbsp;·&nbsp; Sourdough</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Bacon Croquettes</span></div><span class="item-price">350</span><div class="item-desc">4 pieces &nbsp;·&nbsp; Spanish style &nbsp;·&nbsp; Bacon &nbsp;·&nbsp; Mozzarella twist</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Sisig Tartine</span></div><span class="item-price">285</span><div class="item-desc">Pork belly &nbsp;·&nbsp; Onion &nbsp;·&nbsp; Chili &nbsp;·&nbsp; Calamansi &nbsp;·&nbsp; Soy &nbsp;·&nbsp; Fried egg</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Garlic Peanuts</span></div><span class="item-price">100</span><div class="item-desc">Slow cooked kettle fried &nbsp;·&nbsp; Local favorite</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">From Our Seas</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Ceviche Tostada</span></div><span class="item-price">260</span><div class="item-desc">Choice of mackerel or shrimp &nbsp;·&nbsp; Whitefish pate &nbsp;·&nbsp; Cabbage &nbsp;·&nbsp; Salsa</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Grilled Fish Taco (1 pc)</span></div><span class="item-price">350</span><div class="item-desc">Local catch &nbsp;·&nbsp; Cabbage &nbsp;·&nbsp; Cilantro cream &nbsp;·&nbsp; Roasted salsa</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Tacos Gobernador</span></div><span class="item-price">400</span><div class="item-desc">Griddled shrimp & pork &nbsp;·&nbsp; Cheese &nbsp;·&nbsp; Charred chilis &nbsp;·&nbsp; Cilantro cream</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Shrimp Toast</span></div><span class="item-price">595</span><div class="item-desc">HK style &nbsp;·&nbsp; Brioche &nbsp;·&nbsp; Cucumber salsa &nbsp;·&nbsp; Chili oil</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Dips &amp; Spreads</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Roasted Eggplant</span></div><span class="item-price">325</span><div class="item-desc">Roasted eggplant &nbsp;·&nbsp; Spiced almond pepper spread &nbsp;·&nbsp; Sesame peanut chili oil</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="star">★</span><span class="item-name">Baked Brie</span></div><span class="item-price">560</span><div class="item-desc">Brie &nbsp;·&nbsp; Honey bechamel &nbsp;·&nbsp; Candied walnuts &nbsp;·&nbsp; Grilled bread</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Salads &amp; Bowls</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Citrus Arugula Salad</span></div><span class="item-price">395</span><div class="item-desc">Fresh arugula &nbsp;·&nbsp; Olive oil &nbsp;·&nbsp; Calamansi &nbsp;·&nbsp; Cashew &nbsp;·&nbsp; Honey</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Caesar Salad</span></div><span class="item-price">250 / 400</span><div class="item-desc">Romaine &nbsp;·&nbsp; Bagoong dressing &nbsp;·&nbsp; Bacon &nbsp;·&nbsp; Parmesan croutons — Half / Full</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Good Bowl</span></div><span class="item-price">430</span><div class="item-desc">Roasted pumpkin &nbsp;·&nbsp; Grilled chicken &nbsp;·&nbsp; Ancient grains &nbsp;·&nbsp; Calamansi honey mustard</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Soups</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Gazpacho</span></div><span class="item-price">220</span><div class="item-desc">Tomato &nbsp;·&nbsp; Watermelon &nbsp;·&nbsp; Cucumber &nbsp;·&nbsp; Bellpepper — Cold</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Pumpkin Soup</span></div><span class="item-price">250</span><div class="item-desc">Pumpkin &nbsp;·&nbsp; Cinnamon &nbsp;·&nbsp; Onion &nbsp;·&nbsp; Garlic</div></div>
+
+  <div class="section-header"><div class="section-rule"></div><span class="section-label">Something Sweet</span><div class="section-rule"></div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Frozen Mango Cake</span></div><span class="item-price">205</span><div class="item-desc">Graham & mango cake &nbsp;·&nbsp; Calamansi curd &nbsp;·&nbsp; Meringue</div></div>
+  <div class="menu-item"><div class="item-name-row"><span class="item-name">Salted Caramel Chocolate</span></div><span class="item-price">255</span><div class="item-desc">Almond brown butter polvoron &nbsp;·&nbsp; Chocolate cake &nbsp;·&nbsp; Salted caramel &nbsp;·&nbsp; Whipped cocoa cream</div></div>
+
+  <div class="qr-section">
+    <div class="qr-title">Scan to View Full Digital Menu</div>
+    <img src="data:image/png;base64,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" class="qr-img" alt="Digital Menu QR">
+    <span class="qr-url">apkala-updateddigitalmenu.netlify.app</span>
+  </div>
+
+  <p style="text-align:center;font-size:11px;color:var(--text-desc);padding:18px 0 0;font-family:'Helvetica Neue',Arial,sans-serif;letter-spacing:0.5px;">All prices 12% VAT inclusive &nbsp;·&nbsp; 10% service charge &nbsp;·&nbsp; @apkala_ph</p>
+</div>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer class="site-footer">
+  AP KALA &nbsp;·&nbsp; BEACH BAR & MODERN CAFÉ &nbsp;·&nbsp; EL NIDO, PALAWAN &nbsp;·&nbsp; @APKALA_PH
+</footer>
+
+<script>
+function showMenu(id) {
+  document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('menu-' + id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
